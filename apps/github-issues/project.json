@@ -1,0 +1,94 @@
+{
+  "name": "github-issues",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/github-issues/src",
+  "prefix": "prueba-tecnica",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/github-issues",
+        "index": "apps/github-issues/src/index.html",
+        "main": "apps/github-issues/src/main.ts",
+        "polyfills": "apps/github-issues/src/polyfills.ts",
+        "tsConfig": "apps/github-issues/tsconfig.app.json",
+        "assets": [
+          "apps/github-issues/src/favicon.ico",
+          "apps/github-issues/src/assets"
+        ],
+        "styles": ["apps/github-issues/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/github-issues/src/environments/environment.ts",
+              "with": "apps/github-issues/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "github-issues:build:production"
+        },
+        "development": {
+          "browserTarget": "github-issues:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "github-issues:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/github-issues/**/*.ts",
+          "apps/github-issues/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/github-issues"],
+      "options": {
+        "jestConfig": "apps/github-issues/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
