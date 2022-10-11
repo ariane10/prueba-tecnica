@@ -1,1 +1,50 @@
-<prueba-tecnica-nx-welcome></prueba-tecnica-nx-welcome>
+<h1> GitHub Repository Issues </h1>
+
+<div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Repository url" [formControl]="urlField" #urlElem>
+    <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" (click)="urlField.valid && submit()">Search</button>
+    </div>
+    <div class="invalid-feedback">{{errorUrl}}<span class="icon icon-error"></span></div>
+</div>
+
+
+
+<ng-container *ngIf="issueList.length > 0">
+
+    <h4> Issue list - {{url}}</h4>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Coment</th>
+                <th scope="col">Author</th>
+                <th scope="col">Created at</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let issue of issueList">
+                <th>{{issue.title}}</th>
+                <td>{{issue.body}}</td>
+                <td>{{issue.user.login}}</td>
+                <td>{{issue.created_at | date: 'dd/MM/yyyy'}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <ul class="pagination  mt-1 justify-content-end">
+        <li class="page-item" [ngClass]="{'disabled': pag === 1}" (click)="previous()">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span>&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': issueList.length < per_pag}" (click)="next()">
+            <a class="page-link" href="#" aria-label="Next">
+                <span >&raquo;</span>
+            </a>
+        </li>
+    </ul>
+
+</ng-container>
