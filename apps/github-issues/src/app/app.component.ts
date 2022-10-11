@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { RepositoryIssuesOUT } from './models/repositoryIssuesOUT';
+import { RepositoryIssue } from './models/repositoryIssues';
 import { RestApiService } from './services/rest-api.service';
 
 @Component({
@@ -11,9 +11,9 @@ import { RestApiService } from './services/rest-api.service';
 })
 
 export class AppComponent implements OnDestroy {
-
+  title = "github-issues";
   protected urlField: FormControl;
-  protected issueList: RepositoryIssuesOUT[] = [];
+  protected issueList: RepositoryIssue[] = [];
   protected url = "";
 
   subscription: Subscription | undefined;
@@ -85,5 +85,7 @@ export class AppComponent implements OnDestroy {
 
   // TODO: control de errores
   // TODO: comprobar el model y meterte más cosas
+  // TODO: cambiar readme
+  // TODO: testing
 
 }
