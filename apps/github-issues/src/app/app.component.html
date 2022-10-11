@@ -8,9 +8,7 @@
     <div class="invalid-feedback">{{errorUrl}}<span class="icon icon-error"></span></div>
 </div>
 
-
-
-<ng-container *ngIf="issueList.length > 0">
+<ng-container *ngIf="(issues$ | async).length > 0">
 
     <h4> Issue list - {{url}}</h4>
 
@@ -24,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let issue of issueList">
+            <tr *ngFor="let issue of issues$ | async">
                 <th>{{issue.title}}</th>
                 <td>{{issue.body}}</td>
                 <td>{{issue.user.login}}</td>
@@ -40,7 +38,7 @@
                 <span>&laquo;</span>
             </a>
         </li>
-        <li class="page-item" [ngClass]="{'disabled': issueList.length < per_pag}" (click)="next()">
+        <li class="page-item" [ngClass]="{'disabled': (issues$ | async).length < per_pag}" (click)="next()">
             <a class="page-link" href="#" aria-label="Next">
                 <span >&raquo;</span>
             </a>

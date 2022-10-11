@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { issuesReducer } from './state/reducers/issues.reducers';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -15,8 +16,9 @@ import { environment } from '../environments/environment';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot(
-      {},
+    StoreModule.forRoot({
+        issues: issuesReducer
+      },
       {
         metaReducers: !environment.production ? [] : [],
         runtimeChecks: {

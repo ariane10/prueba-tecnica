@@ -1,8 +1,10 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { RepositoryIssue } from './models/repositoryIssues';
+import { Observable, Subscription } from 'rxjs';
 import { RestApiService } from './services/rest-api.service';
+import { Store } from '@ngrx/store';
+import { loadedIssues } from './state/action/issues.actions';
+import { selectListIssues } from './state/selectors/issues.selectors';
 
 @Component({
   selector: 'prueba-tecnica-root',
@@ -10,10 +12,10 @@ import { RestApiService } from './services/rest-api.service';
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   title = "github-issues";
+
   protected urlField: FormControl;
-  protected issueList: RepositoryIssue[] = [];
   protected url = "";
 
   subscription: Subscription | undefined;
@@ -26,14 +28,25 @@ export class AppComponent implements OnDestroy {
   @ViewChild('urlElem') urlElem!: ElementRef;
   protected errorUrl = "The provided url is not valid";
 
-  constructor(protected restApiService: RestApiService) {
+  // ngrx
+  issues$: Observable<any> = new Observable();
+
+  constructor(
+    private restApiService: RestApiService,
+    private store: Store<any>
+    ) {
     this.urlField = new FormControl('', [Validators.required]);
+  }
+
+  ngOnInit(): void {
+    this.issues$ = this.store.select(selectListIssues)
   }
 
 
   submit(): void {
     this.url = this.urlField.getRawValue();
     this.urlField.reset();
+    this.pag = 1;
     this.searchIssues();
   }
 
@@ -46,24 +59,28 @@ export class AppComponent implements OnDestroy {
     const url = this.url.split("github.com")[1];
 
     if (url != undefined) {
-
       this.subscription = this.restApiService.getRepositoryIssues(url, this.per_pag, this.pag).subscribe(
         res => {
           this.urlElem.nativeElement.classList.remove('is-invalid');
-          this.issueList = res;
+          this.store.dispatch(loadedIssues(
+            { issues: res }
+          ))
         },
         () => {
           this.urlElem.nativeElement.classList.add('is-invalid');
-          this.issueList = [];
+          this.store.dispatch(loadedIssues(
+            { issues: [] }
+          ))
         })
 
     } else {
       this.urlElem.nativeElement.classList.add('is-invalid');
-      this.issueList = [];
+      this.store.dispatch(loadedIssues(
+        { issues: [] }
+      ))
     }
 
   }
-
 
   previous(): void {
     this.pag--;
@@ -75,7 +92,6 @@ export class AppComponent implements OnDestroy {
     this.pag++;
     this.searchIssues();
   }
-
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
