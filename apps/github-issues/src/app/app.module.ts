@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { issuesReducer } from './state/reducers/issues.reducers';
+import { IssuesEffects } from './state/effects/issues.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +27,7 @@ import { issuesReducer } from './state/reducers/issues.reducers';
         },
       }
     ),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([IssuesEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [],

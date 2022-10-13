@@ -3,7 +3,8 @@ import { IssueModel } from '../../models/issue.interface';
 
 
 export const loadIssues = createAction(
-    '[Issue List] Load issues'
+    '[Issue List] Load issues',
+    props<{ url: string, per_pag: number, pag: number }>()
 );
 
 

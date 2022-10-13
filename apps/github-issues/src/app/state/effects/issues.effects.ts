@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, exhaustMap, catchError } from 'rxjs/operators';
 import { RestApiService } from '../../services/rest-api.service';
+import { loadedIssues, loadIssues } from '../action/issues.actions';
  
 @Injectable()
 export class IssuesEffects {
- 
-  /*loadIssues$ = createEffect(() => this.actions$.pipe(
-    ofType('[Issue List] Loaded success'),
-    mergeMap(() => this.restApiService.getRepositoryIssues()
-      .pipe(
-        map(issues => ({ type: '[Issue List] Loaded success', issues: issues })),
+
+  loadIssues$ = createEffect(() => this.actions$.pipe(
+    ofType(loadIssues), // la acción que ha ejecutado el cambio  
+      exhaustMap(action => this.restApiService.getRepositoryIssues(action.url, action.per_pag, action.pag).pipe(
+        map(issues => loadedIssues({issues: issues})),
         catchError(() => EMPTY)
       ))
     )
-  )*/
+  )
  
   constructor(
     private actions$: Actions,

@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { RestApiService } from './services/rest-api.service';
 import { Store } from '@ngrx/store';
-import { loadedIssues } from './state/action/issues.actions';
-import { selectListIssues } from './state/selectors/issues.selectors';
+import { loadIssues, loadedIssues } from './state/action/issues.actions';
+import { selectLoading, selectListIssues } from './state/selectors/issues.selectors';
 
 @Component({
   selector: 'prueba-tecnica-root',
@@ -33,15 +32,14 @@ export class AppComponent implements OnInit, OnDestroy {
   issues$: Observable<any> = new Observable();
 
   constructor(
-    private restApiService: RestApiService,
     private store: Store<any>
     ) {
     this.urlField = new FormControl('', [Validators.required]);
   }
 
   ngOnInit(): void {
-    this.loading$ = this.store.select(selectListIssues)
-    this.issues$ = this.store.select(selectListIssues)
+    this.loading$ = this.store.select(selectLoading)
+    this.issues$ = this.store.select(selectListIssues) 
   }
 
 
@@ -56,7 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
     const url = this.url.split("github.com")[1];
 
     if (url != undefined) {
-      this.subscription = this.restApiService.getRepositoryIssues(url, this.per_pag, this.pag).subscribe(
+      this.store.dispatch(loadIssues({url: url, per_pag: this.per_pag, pag: this.pag}))
+      /*this.subscription = this.restApiService.getRepositoryIssues(url, this.per_pag, this.pag).subscribe(
         res => {
           this.urlElem.nativeElement.classList.remove('is-invalid');
           this.urlField.reset();
@@ -69,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.store.dispatch(loadedIssues(
             { issues: [] }
           ))
-        })
+        })*/
 
     } else {
       this.urlElem.nativeElement.classList.add('is-invalid');
