@@ -4,7 +4,7 @@ describe('github-issues', () => {
   it('should display repository issues', () => {
     cy.get('input[name=url]').type('https://github.com/ariane10/docker-exercises')
     cy.contains('Search').click()
-    cy.contains('Issue list');
+    cy.contains('Repository');
   })
 
 
