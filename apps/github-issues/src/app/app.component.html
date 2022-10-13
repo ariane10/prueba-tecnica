@@ -8,7 +8,7 @@
     <div class="invalid-feedback">{{errorUrl}}<span class="icon icon-error"></span></div>
 </div>
 
-<ng-container *ngIf="(issues$ | async).length > 0">
+<ng-container *ngIf="(issues$ | async)">
 
     <h4> Issue list - {{url}}</h4>
 
