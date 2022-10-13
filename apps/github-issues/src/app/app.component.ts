@@ -15,7 +15,7 @@ import { selectListIssues } from './state/selectors/issues.selectors';
 export class AppComponent implements OnInit, OnDestroy {
   title = "github-issues";
 
-  protected urlField: FormControl;
+  urlField: FormControl;  // no está protected para poder acceder desde el archivo de testing
   protected url = "";
 
   subscription: Subscription | undefined;
@@ -51,10 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   searchIssues(): void {
-
-    // para pruebas
-    // https://github.com/ariane10/docker-exercises
-    //
 
     const url = this.url.split("github.com")[1];
 
@@ -96,12 +92,5 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription?.unsubscribe();
   }
-
-
-
-  // TODO: control de errores
-  // TODO: comprobar el model y meterte más cosas
-  // TODO: cambiar readme
-  // TODO: testing
 
 }

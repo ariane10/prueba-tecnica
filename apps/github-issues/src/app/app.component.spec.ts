@@ -1,11 +1,28 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { StoreModule } from '@ngrx/store';
+import { issuesReducer } from './state/reducers/issues.reducers';
+import { environment } from '../environments/environment';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, NxWelcomeComponent],
+      declarations: [AppComponent],
+      imports: [HttpClientTestingModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({
+          issues: issuesReducer
+        },
+        {
+          metaReducers: !environment.production ? [] : [],
+          runtimeChecks: {
+            strictActionImmutability: true,
+            strictStateImmutability: true,
+          },
+        }
+      )]
     }).compileComponents();
   });
 
@@ -26,7 +43,27 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome github-issues'
+      'GitHub Repository Issues'
     );
   });
+
+  // TEST UNITARIOS PERSONALIZADOS
+  it('should return invalid form', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    const url = app.urlField
+    url.setValue('')
+    expect(app.urlField.invalid).toBeTruthy();
+  });
+
+  it('should return valid form', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    const url = app.urlField
+    url.setValue('https://github.com/user/repository')
+    expect(app.urlField.valid).toBeTruthy();
+  });
+
 });
