@@ -29,6 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   protected errorUrl = "The provided url is not valid";
 
   // ngrx
+  loading$: Observable<any> = new Observable();
   issues$: Observable<any> = new Observable();
 
   constructor(
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loading$ = this.store.select(selectListIssues)
     this.issues$ = this.store.select(selectListIssues)
   }
 
