@@ -1,13 +1,17 @@
 # PruebaTecnica IronTec
 
-## Install Angular dependencies 
+## Instalar las dependencias de Angular 
 
-Run `npm install` to install node_modules.
+Ejecuta `npm install` para instalar node_modules.
 
-## Development server
+## Probar la aplicación
 
-Run `ng serve github-issues` for a dev server. Navigate to http://localhost:4200/.
+Ejecuta `ng serve github-issues` para probar la aplicación en el http://localhost:4200/.
 
-## Running unit tests
+## Ejecutar los unit tests
 
-Run `ng test github-issues` to execute the unit tests.
+Ejecuta `ng test github-issues` para probar los unit tests.
+
+## NGRX effects
+
+En la rama *ngrx-effects* está implementado ngrx con effects.
