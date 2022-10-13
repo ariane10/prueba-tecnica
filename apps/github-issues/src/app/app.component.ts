@@ -70,11 +70,11 @@ export class AppComponent implements OnInit, OnDestroy {
           ))
         })*/
 
-    } else {
+    /*} else {
       this.urlElem.nativeElement.classList.add('is-invalid');
       this.store.dispatch(loadedIssues(
         { issues: [] }
-      ))
+      ))*/
     }
 
   }
