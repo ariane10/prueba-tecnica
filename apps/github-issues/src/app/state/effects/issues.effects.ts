@@ -8,7 +8,7 @@ import { RestApiService } from '../../services/rest-api.service';
 export class IssuesEffects {
  
   /*loadIssues$ = createEffect(() => this.actions$.pipe(
-    //ofType('[Issue List] Loaded success'),
+    ofType('[Issue List] Loaded success'),
     mergeMap(() => this.restApiService.getRepositoryIssues()
       .pipe(
         map(issues => ({ type: '[Issue List] Loaded success', issues: issues })),
