@@ -45,7 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.url = this.urlField.getRawValue();
-    this.urlField.reset();
     this.pag = 1;
     this.searchIssues();
   }
@@ -58,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.subscription = this.restApiService.getRepositoryIssues(url, this.per_pag, this.pag).subscribe(
         res => {
           this.urlElem.nativeElement.classList.remove('is-invalid');
+          this.urlField.reset();
           this.store.dispatch(loadedIssues(
             { issues: res }
           ))
